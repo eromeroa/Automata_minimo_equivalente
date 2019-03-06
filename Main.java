@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Main {
 /*
-Hay que modificar los menús para que todos funcionen con opciones como 1 o 2 en lugar de letras
+Hay que modificar los menús para que se permita modificar las relaciones entre nodos por si hay alguna equivocacion y para poder imprimir el grafo en cualquier momento
  */
     public static void main(String[] args) {
         Automata a;
@@ -42,9 +42,9 @@ Hay que modificar los menús para que todos funcionen con opciones como 1 o 2 en
                 break;
                 case 3: {
                     System.out.println("\nHas seleccionado otro automata");
-                    System.out.println("Introduce el numero de nodos:\n");
+                    System.out.println("Introduce el numero de nodos del automata:\n");
                     n = sc.nextInt();
-                    System.out.println("Introduce el numero de valores de las transiciones:\n");
+                    System.out.println("Introduce el numero de valores distintos para las transiciones:\n");
                     m = sc.nextInt();
                     a = new Automata(n, m);
                     a.Datos();

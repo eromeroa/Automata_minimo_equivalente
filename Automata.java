@@ -83,8 +83,8 @@ public class Automata {
     public void Datos() {
 
         Scanner sc = new Scanner(System.in);
-        char exit, l;
-        int i, j, k;
+        char l;
+        int i, j, k, exit;
         do {
 
             System.out.println("Introduce nodo de origen:\n");
@@ -94,18 +94,22 @@ public class Automata {
             System.out.println("Introduce la letra de la transición:\n");
             k = conversor(sc.next().charAt(0));
             grafo[i][j][k] = true;
-            System.out.println("¿Ha acabado? Pulse S (SI) o N (NO)");
-            exit = sc.next().charAt(0);
+            System.out.println("\n¿Ha terminado?\n");
+            System.out.println("1. Si");
+            System.out.println("2. No\n");
+            exit = sc.nextInt();
 
-        } while (exit != 'S');
-        exit = 'N';
+        } while (exit != 1);
+        exit = 2;
         do {
             System.out.println("Introduce un nodo final:\n");
             i = sc.nextInt();
             estadoFinal[i] = true;
-            System.out.println("¿Ha acabado? Pulse S (SI) o N (NO)");
-            exit = sc.next().charAt(0);
-        } while (exit != 'S');
+            System.out.println("\n¿Ha terminado?\n");
+            System.out.println("1. Si");
+            System.out.println("2. No\n");
+            exit = sc.nextInt();
+        } while (exit != 1);
     }
 
     private int conversor(char letra) {
@@ -120,6 +124,12 @@ public class Automata {
             }
             i++;
         }while(!encontrado && i<abc.length);
+        return resul;
+    }
+
+    private char conversorALetra(int letra){
+        char abc[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+        char resul = abc[letra];
         return resul;
     }
 
@@ -184,12 +194,8 @@ public class Automata {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
                     if (grafo[i][j][k]) {
-                        if (k == 0) {
-                            System.out.println("Nodo " + i + " -> Nodo " + j + " Valor de transición: 'a' ;");
-                        }
-                        if (k == 1) {
-                            System.out.println("Nodo " + i + " -> Nodo " + j + " Valor de transición: 'b' ;");
-                        }
+                        char a =conversorALetra(k);
+                        System.out.println("Nodo " + i + " -> Nodo " + j + " Valor de transición: " + a + " ;");
                     }
                 }
             }
