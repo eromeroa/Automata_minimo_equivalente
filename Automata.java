@@ -6,6 +6,9 @@ public class Automata {
     private int m;
     private boolean[][][] grafo;
     private boolean[] estadoFinal;
+    private boolean[] inaccesibles;
+    private boolean[][] matTriangular;
+
 
 
     public Automata(int n, int m) {
@@ -14,11 +17,15 @@ public class Automata {
         this.m = m;
         grafo = new boolean[n][n][m];
         estadoFinal = new boolean[n];
+        inaccesibles = new boolean[n];
+        matTriangular = new boolean[n][n];
         //Inicialización de la matriz y estadoFinal a false.
 
         for (int i = 0; i < n; i++) {
             estadoFinal[i] = false;
+            inaccesibles[i] = false;
             for (int j = 0; j < n; j++) {
+                matTriangular[i][j] = false;
                 for (int k = 0; k < m; k++) {
                     grafo[i][j][k] = false;
                 }
@@ -103,21 +110,22 @@ public class Automata {
 
     private int conversor(char letra) {
 
-        int resul = -99;
-        switch (letra) {
-            case 'a':
-                resul = 0;
-                break;
-            case 'b':
-                resul = 1; //habría que poner todo el abecedario xd
-        }
-
+        int resul = -99, i=0;
+        boolean encontrado = false;
+        char abc[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+        do{
+            if(letra == abc[i]) {
+                resul = i;
+                encontrado = true;
+            }
+            i++;
+        }while(!encontrado && i<abc.length);
         return resul;
     }
 
     public void CalculoAutomataMinimo() {
-
         EliminarEstadosNoAccesibles();
+        marcarEstados();
     }
 
     private void EliminarEstadosNoAccesibles() {
@@ -137,12 +145,8 @@ public class Automata {
             if (!accesible) {
                 for (int i = 0; i < n; i++) {
                     for (int k = 0; k < m; k++) {
+                        inaccesibles[j] = true;
                         grafo[j][i][k] = false;
-                    }
-                }
-
-                for (int i = 0; i < n; i++) {
-                    for (int k = 0; k < m; k++) {
                         grafo[i][j][k] = false;
                     }
                 }
@@ -153,11 +157,25 @@ public class Automata {
 
     //Matriz triangular
     public void marcarEstados() {
+        int cambios;
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-
+                if((estadoFinal[i]&&!estadoFinal[j]&&!inaccesibles[i]&&!inaccesibles[j])||(!estadoFinal[i]&&estadoFinal[j]&&!inaccesibles[i]&&!inaccesibles[j])){
+                    matTriangular[i][j]=true;
+                }
             }
         }
+        do{
+            cambios = 0;
+            for (int i = 1; i < n; i++) {
+                for (int j = 0; j < i; j++) {
+                    /*if(){
+                        cambios++;
+                        //Bucle por implementar
+                    }*/
+                }
+            }
+        }while(cambios!=0);
     }
 
     public void EscribirGrafo() {

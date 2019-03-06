@@ -1,6 +1,8 @@
 import java.util.Scanner;
 public class Main {
-
+/*
+Hay que modificar los menús para que todos funcionen con opciones como 1 o 2 en lugar de letras
+ */
     public static void main(String[] args) {
         Automata a;
         Scanner sc = new Scanner(System.in);
