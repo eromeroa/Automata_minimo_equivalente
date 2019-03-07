@@ -1,12 +1,16 @@
 import java.util.Scanner;
+
+
 public class Main {
-/*
-Hay que modificar los menús para que se permita modificar las relaciones entre nodos por si hay alguna equivocacion y para poder imprimir el grafo en cualquier momento
- */
+
+    /*
+    Hay que modificar los menús para que se permita modificar las relaciones entre nodos por si hay alguna equivocacion y para poder imprimir el grafo en cualquier momento
+     */
     public static void main(String[] args) {
-        Automata a;
+        Automata automata;
         Scanner sc = new Scanner(System.in);
-        int x, n, m;
+        int exit, nodos, transiciones;
+
         do {
 
 
@@ -21,37 +25,37 @@ Hay que modificar los menús para que se permita modificar las relaciones entre 
             switch (i) {
 
                 case 1: {
-                    System.out.println("\nHas seleccionado el automata de ejemplo 1");
-                    a = new Automata(8, 2);
-                    a.Ejemplo1();
-                    a.EscribirGrafo();
-                    a.CalculoAutomataMinimo();
+                    System.out.println("\nHas seleccionado el automata de ejemplo 1\n");
+                    automata = new Automata(8, 2);
+                    automata.Ejemplo1();
+                    automata.mostrarAutomata();
+                    automata.CalculoAutomataMinimo();
                     System.out.println("-----------------------------------------------------------");
-                    a.EscribirGrafo();
+                    //automata.mostrarAutomata();
                 }
                 break;
                 case 2: {
                     System.out.println("\nHas seleccionado el automata de ejemplo 2");
-                    a = new Automata(5, 2);
-                    a.Ejemplo2();
-                    a.EscribirGrafo();
-                    a.CalculoAutomataMinimo();
+                    automata = new Automata(5, 2);
+                    automata.Ejemplo2();
+                    automata.mostrarAutomata();
+                    automata.CalculoAutomataMinimo();
                     System.out.println("-----------------------------------------------------------");
-                    a.EscribirGrafo();
+                    //automata.mostrarAutomata();
                 }
                 break;
                 case 3: {
                     System.out.println("\nHas seleccionado otro automata");
-                    System.out.println("Introduce el numero de nodos del automata:\n");
-                    n = sc.nextInt();
-                    System.out.println("Introduce el numero de valores distintos para las transiciones:\n");
-                    m = sc.nextInt();
-                    a = new Automata(n, m);
-                    a.Datos();
-                    a.EscribirGrafo();
-                    a.CalculoAutomataMinimo();
+                    System.out.println("\nIntroduce el numero de nodos del automata:");
+                    nodos = sc.nextInt();
+                    System.out.println("\nIntroduce el numero de valores distintos para las transiciones:\n");
+                    transiciones = sc.nextInt();
+                    automata = new Automata(nodos, transiciones);
+                    automata.Datos();
+                    automata.mostrarAutomata();
+                    automata.CalculoAutomataMinimo();
                     System.out.println("-----------------------------------------------------------");
-                    a.EscribirGrafo();
+                    //automata.mostrarAutomata();
                 }
                 break;
             }
@@ -59,9 +63,10 @@ Hay que modificar los menús para que se permita modificar las relaciones entre 
             System.out.println("\n¿Desea continuar?\n");
             System.out.println("1. Si");
             System.out.println("2. No\n");
-            x = sc.nextInt();
+            exit = sc.nextInt();
 
-        } while (x != 2);
-
+        } while (exit != 2);
+        sc.close();
     }
+
 }

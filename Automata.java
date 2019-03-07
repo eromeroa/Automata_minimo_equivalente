@@ -2,203 +2,210 @@ import java.util.Scanner;
 
 public class Automata {
 
-    private int n;
-    private int m;
-    private boolean[][][] grafo;
+    private int nodos;
+    private int transiciones;
+    private int[][] automata;
     private boolean[] estadoFinal;
-    private boolean[] inaccesibles;
-    private boolean[][] matTriangular;
+    private boolean[] nodosAccesibles;
+    private String[] alfaNodos;
+    private String[] alfaTrans;
 
+    public Automata(int nodos, int transiciones) {
 
+        this.nodos = nodos;
+        this.transiciones = transiciones;
+        automata = new int[nodos][transiciones];
+        estadoFinal = new boolean[nodos];
+        nodosAccesibles = new boolean[nodos];
+        alfaNodos = new String[]{"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7"};
+        alfaTrans = new String[]{"a", "b"};
 
-    public Automata(int n, int m) {
-
-        this.n = n;
-        this.m = m;
-        grafo = new boolean[n][n][m];
-        estadoFinal = new boolean[n];
-        inaccesibles = new boolean[n];
-        matTriangular = new boolean[n][n];
-        //Inicialización de la matriz y estadoFinal a false.
-
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < nodos; i++) {
             estadoFinal[i] = false;
-            inaccesibles[i] = false;
-            for (int j = 0; j < n; j++) {
-                matTriangular[i][j] = false;
-                for (int k = 0; k < m; k++) {
-                    grafo[i][j][k] = false;
-                }
+            for (int j = 0; j < transiciones; j++) {
+                automata[i][j] = -99;
             }
         }
     }
 
-
     public void Ejemplo1() {
-        //Inicialización del grafo de ejemplo número 1 del tema 8.
 
-        grafo[0][0][1] = true; //0->0
-        grafo[0][1][0] = true; //0->1
-        grafo[1][0][1] = true; //1->0
-        grafo[1][2][0] = true; //1->2
-        grafo[2][2][0] = true; //2->2
-        grafo[2][3][1] = true; //2->3
-        grafo[3][0][1] = true; //3->0
-        grafo[3][4][0] = true; //3->4
-        grafo[4][4][0] = true; //4->4
-        grafo[4][5][1] = true; //4->5
-        grafo[5][4][0] = true; //5->4
-        grafo[5][6][1] = true; //5->6
-        grafo[6][6][1] = true; //6->6
-        grafo[6][7][0] = true; //6->7
-        grafo[7][4][0] = true; //7->4
-        grafo[7][6][0] = true; //7->6
+        //Inicialización del automata de ejemplo número 1 del tema 8.
 
-        //Inicialización del array de estados finales para el ejemplo numero 1 del tema 8.
+        automata[0][0] = 1; //p0->p1: a
+        automata[0][1] = 0; //p0->p0: b
 
-        estadoFinal[4] = true; //nodo 4 es final
-        estadoFinal[5] = true; //nodo 5 es final
-        estadoFinal[6] = true; //nodo 6 es final
-        estadoFinal[7] = true; //nodo 7 es final
+        automata[1][0] = 2; //p1->p2: a
+        automata[1][1] = 0; //p1->p0: b
+
+        automata[2][0] = 2; //p2->p2: a
+        automata[2][1] = 3; //p2->p3: b
+
+        automata[3][0] = 4; //p3->p4: a
+        automata[3][1] = 0; //p3->p0: b
+
+        automata[4][0] = 4; //p4->p4: a
+        automata[4][1] = 5; //p4->p5: b
+
+        automata[5][0] = 4; //p5->p4: a
+        automata[5][1] = 6; //p5->p6: b
+
+        automata[6][0] = 7; //p6->p7: a
+        automata[6][1] = 6; //p6->p6: b
+
+        automata[7][0] = 4; //p7->p4: a
+        automata[7][1] = 6; //p7->p6: b
+
+        estadoFinal[4] = true; //nodo p4 es final
+        estadoFinal[5] = true; //nodo p5 es final
+        estadoFinal[6] = true; //nodo p6 es final
+        estadoFinal[7] = true; //nodo p7 es final
+
     }
 
     public void Ejemplo2() {
-        //Inicialización del grafo de ejemplo numero 2 del tema 8.
 
-        grafo[0][1][0] = true; //0->1
-        grafo[0][2][1] = true; //0->2
-        grafo[1][3][1] = true; //1->3
-        grafo[2][4][0] = true; //2->4
-        grafo[3][3][1] = true; //3->3
-        grafo[4][4][0] = true; //4->4
+        //Inicialización del automata de ejemplo número 2 del tema 8.
 
-        //Inicialización del array de estados finales para el ejemplo numero 2 del tema 8.
+        automata[0][0] = 1;
+        automata[0][1] = 2;
 
-        estadoFinal[1] = true; //nodo 1 es final
-        estadoFinal[2] = true; //nodo 2 es final
-        estadoFinal[3] = true; //nodo 3 es final
-        estadoFinal[4] = true; //nodo 4 es final
+        automata[1][0] = -99;
+        automata[1][1] = 3;
+
+        automata[2][0] = 4;
+        automata[2][1] = -99;
+
+        automata[3][0] = -99;
+        automata[3][1] = 3;
+
+        automata[4][0] = 4;
+        automata[4][1] = -99;
+
+        estadoFinal[1] = true;
+        estadoFinal[2] = true;
+        estadoFinal[3] = true;
+        estadoFinal[4] = true;
+
     }
 
     public void Datos() {
 
         Scanner sc = new Scanner(System.in);
-        char l;
-        int i, j, k, exit;
+        int origen, destino, trans, fin, exit;
         do {
-
             System.out.println("Introduce nodo de origen:\n");
-            i = sc.nextInt();
+            origen = sc.nextInt();
             System.out.println("Introduce nodo de destino:\n");
-            j = sc.nextInt();
+            destino = sc.nextInt();
             System.out.println("Introduce la letra de la transición:\n");
-            k = conversor(sc.next().charAt(0));
-            grafo[i][j][k] = true;
+            trans = sc.nextInt();
+            automata[origen][trans] = destino;
             System.out.println("\n¿Ha terminado?\n");
             System.out.println("1. Si");
             System.out.println("2. No\n");
             exit = sc.nextInt();
 
         } while (exit != 1);
+
         exit = 2;
         do {
             System.out.println("Introduce un nodo final:\n");
-            i = sc.nextInt();
-            estadoFinal[i] = true;
+            fin = sc.nextInt();
+            estadoFinal[fin] = true;
             System.out.println("\n¿Ha terminado?\n");
             System.out.println("1. Si");
             System.out.println("2. No\n");
             exit = sc.nextInt();
         } while (exit != 1);
-    }
-
-    private int conversor(char letra) {
-
-        int resul = -99, i=0;
-        boolean encontrado = false;
-        char abc[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-        do{
-            if(letra == abc[i]) {
-                resul = i;
-                encontrado = true;
-            }
-            i++;
-        }while(!encontrado && i<abc.length);
-        return resul;
-    }
-
-    private char conversorALetra(int letra){
-        char abc[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-        char resul = abc[letra];
-        return resul;
+        sc.close();
     }
 
     public void CalculoAutomataMinimo() {
+
         EliminarEstadosNoAccesibles();
         marcarEstados();
     }
 
     private void EliminarEstadosNoAccesibles() {
 
-        int j = 1;
-        boolean accesible;
-        do {
-            accesible = false;
-            for (int i = 0; i < n; i++) {
-                for (int k = 0; k < m; k++) {
-                    if (grafo[i][j][k] == true && !accesible) {
-                        accesible = true;
-                    }
-                }
-            }
-            //Eliminamos el nodo si no es accesible.
-            if (!accesible) {
-                for (int i = 0; i < n; i++) {
-                    for (int k = 0; k < m; k++) {
-                        inaccesibles[j] = true;
-                        grafo[j][i][k] = false;
-                        grafo[i][j][k] = false;
-                    }
-                }
-            }
-            j++;
-        } while (j < n);
-    }
-
-    //Matriz triangular
-    public void marcarEstados() {
-        int cambios;
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if((estadoFinal[i]&&!estadoFinal[j]&&!inaccesibles[i]&&!inaccesibles[j])||(!estadoFinal[i]&&estadoFinal[j]&&!inaccesibles[i]&&!inaccesibles[j])){
-                    matTriangular[i][j]=true;
+        int nodo;
+        nodosAccesibles[0] = true; //Da por hecho que el primer nodo es el nodo inicial
+        for (int i = 0; i < nodos; i++) {
+            for (int j = 0; j < transiciones; j++) {
+                nodo = automata[i][j];
+                if (nodo != i) {
+                    nodosAccesibles[i] = true;
                 }
             }
         }
-        do{
-            cambios = 0;
-            for (int i = 1; i < n; i++) {
+    }
+
+    public void marcarEstados() {
+
+        boolean matTriangular[][] = new boolean[nodos][nodos];
+        for (int i = 1; i < nodos; i++) {
+            for (int j = 0; j < i; j++) {
+                matTriangular[i][j] = false;
+            }
+        }
+
+        for (int i = 1; i < nodos; i++) {
+            for (int j = 0; j < i; j++) {
+                if ((estadoFinal[i] && !estadoFinal[j] && nodosAccesibles[i] && nodosAccesibles[j]) ||
+                        (!estadoFinal[i] && estadoFinal[j] && nodosAccesibles[i] && nodosAccesibles[j])) {
+                    matTriangular[i][j] = true;
+                }
+            }
+        }
+
+        boolean cambios;
+        do {
+            cambios = false;
+            for (int i = 1; i < nodos; i++) {
                 for (int j = 0; j < i; j++) {
                     /*if(){
-                        cambios++;
+                        cambios = true;
                         //Bucle por implementar
                     }*/
                 }
             }
-        }while(cambios!=0);
+        } while (cambios);
     }
 
-    public void EscribirGrafo() {
+    public void mostrarAutomata() {
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                for (int k = 0; k < m; k++) {
-                    if (grafo[i][j][k]) {
-                        char a =conversorALetra(k);
-                        System.out.println("Nodo " + i + " -> Nodo " + j + " Valor de transición: " + a + " ;");
-                    }
+        String nOrigen, nDestino, trans;
+        for (int i = 0; i < nodos; i++) {
+            for (int j = 0; j < transiciones; j++) {
+                nOrigen = intToString(alfaNodos, i);
+                nDestino = intToString(alfaNodos, automata[i][j]);
+                trans = intToString(alfaTrans, j);
+                if (nDestino != "") {
+                    System.out.println("Nodo " + nOrigen + " -> Nodo " + nDestino + "\nTransición " + trans + "\n");
                 }
             }
         }
     }
+
+    private int stringToInt(String[] abc, String st) {
+
+        int resul = -99;
+        for (int i = 0; i < abc.length; i++) {
+            if (st == abc[i]) {
+                resul = i;
+                break;
+            }
+        }
+        return resul;
+    }
+
+    private String intToString(String[] abc, int pos) {
+
+        if (pos >= 0)
+            return abc[pos];
+        else
+            return "";
+    }
+
 }
