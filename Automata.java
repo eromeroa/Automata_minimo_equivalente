@@ -2,23 +2,22 @@ import java.util.Scanner;
 
 public class Automata {
 
+    private Alfabeto alfa;
     private int nodos;
     private int transiciones;
     private int[][] automata;
     private boolean[] estadoFinal;
     private boolean[] nodosAccesibles;
-    private String[] alfaNodos;
-    private String[] alfaTrans;
 
-    public Automata(int nodos, int transiciones) {
 
-        this.nodos = nodos;
-        this.transiciones = transiciones;
+    public Automata(int alfabeto) {
+        alfa = new Alfabeto(alfabeto);
+        this.nodos = alfa.getNodos();
+        this.transiciones = alfa.getTransiciones();
         automata = new int[nodos][transiciones];
         estadoFinal = new boolean[nodos];
         nodosAccesibles = new boolean[nodos];
-        alfaNodos = new String[]{"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7"};
-        alfaTrans = new String[]{"a", "b"};
+
 
         for (int i = 0; i < nodos; i++) {
             estadoFinal[i] = false;
@@ -92,27 +91,25 @@ public class Automata {
     public void Datos() {
 
         Scanner sc = new Scanner(System.in);
-        int origen, destino, trans, fin, exit;
+        String origen, destino, trans, fin;
+        int exit;
         do {
             System.out.println("Introduce nodo de origen:\n");
-            origen = sc.nextInt();
+            origen = sc.nextLine();
             System.out.println("Introduce nodo de destino:\n");
-            destino = sc.nextInt();
+            destino = sc.nextLine();
             System.out.println("Introduce la letra de la transicion:\n");
-            trans = sc.nextInt();
-            automata[origen][trans] = destino;
+            trans = sc.nextLine();
+            automata[alfa.StringToIntNodo(origen)][alfa.StringToIntTrans(trans)] = alfa.StringToIntNodo(destino);
             System.out.println("\n¿Ha terminado?\n");
             System.out.println("1. Si");
             System.out.println("2. No\n");
             exit = sc.nextInt();
-
         } while (exit != 1);
-
-        exit = 2;
         do {
             System.out.println("Introduce un nodo final:\n");
-            fin = sc.nextInt();
-            estadoFinal[fin] = true;
+            fin = sc.nextLine();
+            estadoFinal[alfa.StringToIntNodo(fin)] = true;
             System.out.println("\n¿Ha terminado?\n");
             System.out.println("1. Si");
             System.out.println("2. No\n");
@@ -178,9 +175,9 @@ public class Automata {
         String nOrigen, nDestino, trans;
         for (int i = 0; i < nodos; i++) {
             for (int j = 0; j < transiciones; j++) {
-                nOrigen = intToString(alfaNodos, i);
-                nDestino = intToString(alfaNodos, automata[i][j]);
-                trans = intToString(alfaTrans, j);
+                nOrigen = alfa.intToStringNodo(i);
+                nDestino = alfa.intToStringNodo(automata[i][j]);
+                trans = alfa.intToStringTrans(j);
                 if (nDestino != "") {
                     System.out.println("Nodo " + nOrigen + " - " + trans + " -> Nodo " + nDestino);
                 }
@@ -188,25 +185,4 @@ public class Automata {
             System.out.print("\n");
         }
     }
-
-    private int stringToInt(String[] abc, String st) {
-
-        int resul = -99;
-        for (int i = 0; i < abc.length; i++) {
-            if (st == abc[i]) {
-                resul = i;
-                break;
-            }
-        }
-        return resul;
-    }
-
-    private String intToString(String[] abc, int pos) {
-
-        if (pos >= 0 && pos < abc.length)
-            return abc[pos];
-        else
-            return "";
-    }
-
 }

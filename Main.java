@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class Main {
 
     /*
@@ -9,8 +8,7 @@ public class Main {
     public static void main(String[] args) {
         Automata automata;
         Scanner sc = new Scanner(System.in);
-        int exit, nodos, transiciones;
-
+        int exit, alfabeto = -99999;
         do {
             System.out.println("\n||===========================================||");
             System.out.println("||GENERADOR DE AUTOMATAS MINIMOS EQUIVALENTES||");
@@ -24,7 +22,7 @@ public class Main {
 
                 case 1: {
                     System.out.println("\nHas seleccionado el automata de ejemplo 1\n");
-                    automata = new Automata(8, 2);
+                    automata = new Automata(3);
                     automata.Ejemplo1();
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
@@ -34,7 +32,7 @@ public class Main {
                 break;
                 case 2: {
                     System.out.println("\nHas seleccionado el automata de ejemplo 2\n");
-                    automata = new Automata(5, 2);
+                    automata = new Automata(4);
                     automata.Ejemplo2();
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
@@ -43,12 +41,15 @@ public class Main {
                 }
                 break;
                 case 3: {
-                    System.out.println("\nHas seleccionado otro automata");
-                    System.out.println("\nIntroduce el numero de nodos del automata:");
-                    nodos = sc.nextInt();
-                    System.out.println("\nIntroduce el numero de valores distintos para las transiciones:\n");
-                    transiciones = sc.nextInt();
-                    automata = new Automata(nodos, transiciones);
+                    System.out.println("\nHas seleccionado otro automata\n");
+                    System.out.println("\n¿Desea utilizar el alfabeto por defecto o prefiere personalizarlo?");
+                    System.out.println("1. Alfabeto por defecto ");
+                    System.out.println("2. Alfabeto personalizado");
+                    do {
+                        if (alfabeto != -99999 || alfabeto != 1 || alfabeto != 2) System.out.println("Opción no válida");
+                        alfabeto = sc.nextInt();
+                    } while(alfabeto != 1 || alfabeto != 2);
+                    automata = new Automata(alfabeto);
                     automata.Datos();
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
