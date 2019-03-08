@@ -10,9 +10,9 @@ public class Alfabeto {
 
     public Alfabeto(int tipoAlf){
         switch (tipoAlf){
-            case 1: tipo1();
+            case 1: AlfabetoPredeterminado();
                     break;
-            case 2: tipo2();
+            case 2: AlfabetoPersonalizable();
                     break;
             case 3: ejemplo1();
                     break;
@@ -22,7 +22,7 @@ public class Alfabeto {
     }
 
     //Genera el alfabeto de tipo 1 (nombres predeterminados eligiendo número de nodos y transiciones)
-    private void tipo1(){
+    private void AlfabetoPredeterminado(){
         Scanner sc = new Scanner(System.in);
         int nodos, trans;
 
@@ -51,26 +51,27 @@ public class Alfabeto {
             alfaTrans[i] = alfaTransPred[i];
             System.out.println(alfaTrans[i] + " ");
         }
-
-        sc.close();
     }
 
     //Genera el alfabeto de tipo 2 (numero y nombres de nodos y transiciones personalizables)
-    private void tipo2(){
+    private void AlfabetoPersonalizable(){
         Scanner sc = new Scanner(System.in);
         int nodos=-99, trans=-99;
 
         do {
-            if (nodos != -99 || nodos <= 0) System.out.println("El numero indicado no es valido");
             System.out.println("\nIntroduce el numero de nodos (maximo 20):");
             nodos = sc.nextInt();
+            sc.nextLine();
+            if (nodos == -99 || nodos <= 0) System.out.println("El numero indicado no es valido");
         }while(nodos<=0);
         alfaNodos = new String[nodos];
 
         do {
-            if (trans != -99 || trans <= 0) System.out.println("El numero indicado no es valido");
+
             System.out.println("\nIntroduce el numero de valores distintos para las transiciones (maximo 7):\n");
             trans = sc.nextInt();
+            sc.nextLine();
+            if (trans == -99 || trans <= 0) System.out.println("El numero indicado no es valido");
         }while(trans<=0);
         alfaTrans = new String[trans];
 
@@ -80,13 +81,12 @@ public class Alfabeto {
             alfaNodos[i] = sc.nextLine();
             System.out.println("\n");
         }
+        System.out.println("\nIntroduce un nombre para cada transicion: ");
         for(int i=0; i<trans; i++) {
-            System.out.println("Nodo " + i + ": ");
+            System.out.println("Transicion " + i + ": ");
             alfaTrans[i] = sc.nextLine();
             System.out.println("\n");
         }
-
-        sc.close();
     }
 
     private void ejemplo1(){
@@ -121,7 +121,7 @@ public class Alfabeto {
 
     public String intToStringTrans(int trans){
         String transS = "";
-        if (trans >= 0 && trans < alfaTrans.length) transS = alfaNodos[trans];
+        if (trans >= 0 && trans < alfaTrans.length) transS = alfaTrans[trans];
         return transS;
     }
 
@@ -149,6 +149,28 @@ public class Alfabeto {
             i++;
         }while(i<alfaTrans.length && !encontrado);
         return transS;
+    }
+
+    public boolean PerteneceAlAlfabeto_Nodo(String nodo){
+        boolean pertenece=false;
+        for(int i=0; i<alfaNodos.length; i++){
+            if(nodo.equals(alfaNodos[i])){
+                pertenece=true;
+                break;
+            }
+        }
+        return pertenece;
+    }
+
+    public boolean PerteneceAlAlfabeto_Transicion(String transicion){
+        boolean pertenece=false;
+        for(int i=0; i<alfaTrans.length; i++){
+            if(transicion.equals(alfaTrans[i])){
+                pertenece=true;
+                break;
+            }
+        }
+        return pertenece;
     }
 
 }

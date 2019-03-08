@@ -46,9 +46,9 @@ public class Main {
                     System.out.println("1. Alfabeto por defecto ");
                     System.out.println("2. Alfabeto personalizado");
                     do {
-                        if (alfabeto != -99999 || alfabeto != 1 || alfabeto != 2) System.out.println("Opción no válida");
                         alfabeto = sc.nextInt();
-                    } while(alfabeto != 1 || alfabeto != 2);
+                        if (alfabeto != -99999 && alfabeto != 1 && alfabeto != 2) System.out.println("Opción no válida");
+                    } while(alfabeto != 1 && alfabeto != 2);
                     automata = new Automata(alfabeto);
                     automata.Datos();
                     automata.mostrarAutomata();

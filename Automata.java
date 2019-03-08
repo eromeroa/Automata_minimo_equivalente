@@ -93,18 +93,38 @@ public class Automata {
         Scanner sc = new Scanner(System.in);
         String origen, destino, trans, fin;
         int exit;
+        boolean pertenece;
         do {
-            System.out.println("Introduce nodo de origen:\n");
-            origen = sc.nextLine();
-            System.out.println("Introduce nodo de destino:\n");
-            destino = sc.nextLine();
-            System.out.println("Introduce la letra de la transicion:\n");
-            trans = sc.nextLine();
+            do{
+                System.out.println("Introduce nodo de origen:\n");
+                origen = sc.nextLine();
+                pertenece=alfa.PerteneceAlAlfabeto_Nodo(origen);
+                if(!pertenece){
+                    System.out.println("Este nombre de nodo no pertenece al alfabeto definido.\n");
+                }
+            }while(!pertenece);
+            do{
+                System.out.println("Introduce nodo de destino:\n");
+                destino = sc.nextLine();
+                pertenece=alfa.PerteneceAlAlfabeto_Nodo(destino);
+                if(!pertenece){
+                    System.out.println("Este nombre de nodo no pertenece al alfabeto definido.\n");
+                }
+            }while(!pertenece);
+            do{
+                System.out.println("Introduce la letra de la transicion:\n");
+                trans = sc.nextLine();
+                pertenece=alfa.PerteneceAlAlfabeto_Transicion(trans);
+                if(!pertenece){
+                    System.out.println("Este nombre de transición no pertenece al alfabeto definido\n");
+                }
+            }while(!pertenece);
             automata[alfa.StringToIntNodo(origen)][alfa.StringToIntTrans(trans)] = alfa.StringToIntNodo(destino);
             System.out.println("\n¿Ha terminado?\n");
             System.out.println("1. Si");
             System.out.println("2. No\n");
             exit = sc.nextInt();
+            sc.nextLine(); //Limpiamos el buffer.
         } while (exit != 1);
         do {
             System.out.println("Introduce un nodo final:\n");
@@ -114,9 +134,9 @@ public class Automata {
             System.out.println("1. Si");
             System.out.println("2. No\n");
             exit = sc.nextInt();
+            sc.nextLine();//Limpiamos buffer.
         } while (exit != 1);
-        sc.close();
-    }
+    }   //cambiar para meter los datos de: Nodo origen, valor de transición y nodo destino a la vez.
 
     public void CalculoAutomataMinimo() {
 
