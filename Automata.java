@@ -98,7 +98,7 @@ public class Automata {
             origen = sc.nextInt();
             System.out.println("Introduce nodo de destino:\n");
             destino = sc.nextInt();
-            System.out.println("Introduce la letra de la transición:\n");
+            System.out.println("Introduce la letra de la transicion:\n");
             trans = sc.nextInt();
             automata[origen][trans] = destino;
             System.out.println("\n¿Ha terminado?\n");
@@ -182,9 +182,10 @@ public class Automata {
                 nDestino = intToString(alfaNodos, automata[i][j]);
                 trans = intToString(alfaTrans, j);
                 if (nDestino != "") {
-                    System.out.println("Nodo " + nOrigen + " -> Nodo " + nDestino + "\nTransición " + trans + "\n");
+                    System.out.println("Nodo " + nOrigen + " - " + trans + " -> Nodo " + nDestino);
                 }
             }
+            System.out.print("\n");
         }
     }
 
@@ -202,7 +203,7 @@ public class Automata {
 
     private String intToString(String[] abc, int pos) {
 
-        if (pos >= 0)
+        if (pos >= 0 && pos < abc.length)
             return abc[pos];
         else
             return "";

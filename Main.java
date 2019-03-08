@@ -12,11 +12,9 @@ public class Main {
         int exit, nodos, transiciones;
 
         do {
-
-
-            System.out.println("\n||==============================||");
-            System.out.println("||GENERADOR DE AUTOMATAS MINIMOS||");
-            System.out.println("||==============================||\n");
+            System.out.println("\n||===========================================||");
+            System.out.println("||GENERADOR DE AUTOMATAS MINIMOS EQUIVALENTES||");
+            System.out.println("||===========================================||\n");
             System.out.println("Selecciona una opcion:\n");
             System.out.println("1. Automata de ejemplo 1");
             System.out.println("2. Automata de ejemplo 2");
@@ -35,7 +33,7 @@ public class Main {
                 }
                 break;
                 case 2: {
-                    System.out.println("\nHas seleccionado el automata de ejemplo 2");
+                    System.out.println("\nHas seleccionado el automata de ejemplo 2\n");
                     automata = new Automata(5, 2);
                     automata.Ejemplo2();
                     automata.mostrarAutomata();
