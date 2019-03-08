@@ -8,7 +8,7 @@ public class Automata {
     private int[][] automata;
     private boolean[] estadoFinal;
     private boolean[] nodosAccesibles;
-
+    private boolean matTriangular[][];
 
     public Automata(int alfabeto) {
         alfa = new Alfabeto(alfabeto);
@@ -18,6 +18,12 @@ public class Automata {
         estadoFinal = new boolean[nodos];
         nodosAccesibles = new boolean[nodos];
 
+        matTriangular = new boolean[nodos][nodos];
+        for (int i = 0; i < nodos; i++) {
+            for (int j = 0; j < nodos; j++) {
+                matTriangular[i][j] = false;
+            }
+        }
 
         for (int i = 0; i < nodos; i++) {
             estadoFinal[i] = false;
@@ -95,30 +101,30 @@ public class Automata {
         int exit;
         boolean pertenece;
         do {
-            do{
+            do {
                 System.out.println("Introduce nodo de origen:\n");
                 origen = sc.nextLine();
-                pertenece=alfa.PerteneceAlAlfabeto_Nodo(origen);
-                if(!pertenece){
+                pertenece = alfa.PerteneceAlAlfabeto_Nodo(origen);
+                if (!pertenece) {
                     System.out.println("Este nombre de nodo no pertenece al alfabeto definido.\n");
                 }
-            }while(!pertenece);
-            do{
+            } while (!pertenece);
+            do {
                 System.out.println("Introduce nodo de destino:\n");
                 destino = sc.nextLine();
-                pertenece=alfa.PerteneceAlAlfabeto_Nodo(destino);
-                if(!pertenece){
+                pertenece = alfa.PerteneceAlAlfabeto_Nodo(destino);
+                if (!pertenece) {
                     System.out.println("Este nombre de nodo no pertenece al alfabeto definido.\n");
                 }
-            }while(!pertenece);
-            do{
+            } while (!pertenece);
+            do {
                 System.out.println("Introduce la letra de la transicion:\n");
                 trans = sc.nextLine();
-                pertenece=alfa.PerteneceAlAlfabeto_Transicion(trans);
-                if(!pertenece){
+                pertenece = alfa.PerteneceAlAlfabeto_Transicion(trans);
+                if (!pertenece) {
                     System.out.println("Este nombre de transición no pertenece al alfabeto definido\n");
                 }
-            }while(!pertenece);
+            } while (!pertenece);
             automata[alfa.StringToIntNodo(origen)][alfa.StringToIntTrans(trans)] = alfa.StringToIntNodo(destino);
             System.out.println("\n¿Ha terminado?\n");
             System.out.println("1. Si");
@@ -160,34 +166,51 @@ public class Automata {
 
     public void marcarEstados() {
 
-        boolean matTriangular[][] = new boolean[nodos][nodos];
-        for (int i = 1; i < nodos; i++) {
-            for (int j = 0; j < i; j++) {
-                matTriangular[i][j] = false;
-            }
-        }
-
         for (int i = 1; i < nodos; i++) {
             for (int j = 0; j < i; j++) {
                 if ((estadoFinal[i] && !estadoFinal[j] && nodosAccesibles[i] && nodosAccesibles[j]) ||
                         (!estadoFinal[i] && estadoFinal[j] && nodosAccesibles[i] && nodosAccesibles[j])) {
                     matTriangular[i][j] = true;
+                    matTriangular[j][i] = true;
                 }
             }
         }
 
         boolean cambios;
+        int nodo1, nodo2;
         do {
             cambios = false;
             for (int i = 1; i < nodos; i++) {
                 for (int j = 0; j < i; j++) {
-                    /*if(){
-                        cambios = true;
-                        //Bucle por implementar
-                    }*/
+                    if (nodosAccesibles[i] && nodosAccesibles[j]) { //No tener en cuenta los nodos inaccesibles en la matriz triangular
+                        if (!matTriangular[i][j]) {
+                            for (int k = 0; k < transiciones; k++) {
+                                nodo1 = automata[j][k];
+                                nodo2 = automata[i][k];
+                                if (nodo1 != -99 && nodo2 != -99) { //Comprobar si existe la transicion
+                                    if (matTriangular[nodo1][nodo2]) {
+                                        matTriangular[i][j] = true;
+                                        matTriangular[j][i] = true;
+                                        cambios = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         } while (cambios);
+
+        //Bucle para imprimir la matriz "triangular"
+        /*
+        for (int i = 0; i < nodos; i++) {
+            for (int j = 0; j < nodos; j++) {
+                System.out.print(matTriangular[i][j] +"\t");
+            }
+            System.out.print("\n");
+        }
+        */
     }
 
     public void mostrarAutomata() {
