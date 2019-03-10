@@ -6,15 +6,17 @@ public class Automata {
     private int nodos;
     private int transiciones;
     private int[][] automata;
+    private int[][] automataFinal;
     private boolean[] estadoFinal;
     private boolean[] nodosAccesibles;
-    private boolean matTriangular[][];
+    private boolean[][] matTriangular;
 
     public Automata(int alfabeto) {
         alfa = new Alfabeto(alfabeto);
         this.nodos = alfa.getNodos();
         this.transiciones = alfa.getTransiciones();
         automata = new int[nodos][transiciones];
+        automataFinal = new int[nodos][transiciones];
         estadoFinal = new boolean[nodos];
         nodosAccesibles = new boolean[nodos];
 
@@ -28,6 +30,7 @@ public class Automata {
         for (int i = 0; i < nodos; i++) {
             estadoFinal[i] = false;
             for (int j = 0; j < transiciones; j++) {
+                automataFinal[i][j] = -99;
                 automata[i][j] = -99;
             }
         }
@@ -202,6 +205,35 @@ public class Automata {
             }
         } while (cambios);
 
+        boolean[] nodosAutomata = new boolean[nodos];
+        boolean fusionado = false;
+
+        for (int i = 1; i < nodos; i++){
+            nodosAutomata[i] = false;
+        }
+
+        for (int i = 0; i < nodos; i++){
+            for (int j = 0; j < transiciones; j++){
+                //if(nodosAccesibles[i]&&nodosAccesibles[automata[i][j]]){
+                    if(!nodosAutomata[i]){
+                        for(int k = 0; k < nodos; k++){
+                            if(!matTriangular[i][k]){
+                                if(automata[i][j]==k||automata[i][j]==i||automata[k][j]==k||automata[k][j]==i){
+                                    automataFinal[i][j] = i;
+                                }
+                                else automataFinal[i][j] = automata[i][j];
+                                nodosAutomata[i] = true;
+                                nodosAutomata[k] = true;
+                                fusionado = true;
+                            }
+                        }
+                        if(!fusionado) automataFinal[i][j] = automata[i][j];
+                        fusionado = false;
+                    }
+                //}
+            }
+        }
+
         //Bucle para imprimir la matriz "triangular"
         /*
         for (int i = 0; i < nodos; i++) {
@@ -214,8 +246,8 @@ public class Automata {
     }
 
     public void mostrarAutomata() {
-
         String nOrigen, nDestino, trans;
+        System.out.println("Automata inicial\n");
         for (int i = 0; i < nodos; i++) {
             for (int j = 0; j < transiciones; j++) {
                 nOrigen = alfa.intToStringNodo(i);
@@ -225,7 +257,37 @@ public class Automata {
                     System.out.println("Nodo " + nOrigen + " - " + trans + " -> Nodo " + nDestino);
                 }
             }
-            System.out.print("\n");
         }
+        System.out.print("\nNodos finales: ");
+        for (int i = 0; i < estadoFinal.length; i++){
+            if(estadoFinal[i]) System.out.print(alfa.intToStringNodo(i) + " ");
+        }
+        System.out.print("\n\n");
+    }
+
+    public void mostrarAutomataPost() {
+        String nOrigen, nDestino, trans;
+        System.out.println("Automata minimo equivalente\n");
+        for (int i = 0; i < nodos; i++) {
+            for (int j = 0; j < transiciones; j++) {
+                nOrigen = alfa.intToStringNodo(i);
+                nDestino = alfa.intToStringNodo(automataFinal[i][j]);
+                trans = alfa.intToStringTrans(j);
+                if (nDestino != "") {
+                    System.out.println("Nodo " + nOrigen + " - " + trans + " -> Nodo " + nDestino);
+                }
+            }
+        }
+        System.out.print("\nNodos finales: ");
+        for (int i = 0; i < estadoFinal.length; i++){
+            if(estadoFinal[i]) System.out.print(alfa.intToStringNodo(i) + " ");
+        }
+        System.out.print("\nNodos fusionados: ");
+        for (int i = 1; i < nodos; i++){
+            for (int j = 0; j < i; j++){
+                if(!matTriangular[i][j]) System.out.print(alfa.intToStringNodo(j)+alfa.intToStringNodo(i) + " ");
+            }
+        }
+        System.out.print("\n\n");
     }
 }

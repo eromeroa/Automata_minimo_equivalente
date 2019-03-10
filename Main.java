@@ -26,6 +26,7 @@ public class Main {
                     automata.Ejemplo1();
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
+                    automata.mostrarAutomataPost();
                     System.out.println("-----------------------------------------------------------");
                     //automata.mostrarAutomata();
                 }
@@ -36,6 +37,7 @@ public class Main {
                     automata.Ejemplo2();
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
+                    automata.mostrarAutomataPost();
                     System.out.println("-----------------------------------------------------------");
                     //automata.mostrarAutomata();
                 }
