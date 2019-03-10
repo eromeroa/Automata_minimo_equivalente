@@ -24,22 +24,24 @@ public class Main {
                     System.out.println("\nHas seleccionado el automata de ejemplo 1\n");
                     automata = new Automata(3);
                     automata.Ejemplo1();
+                    System.out.println("Automata inicial\n");
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
-                    automata.mostrarAutomataPost();
+                    System.out.println("Automata minimo equivalente\n");
+                    automata.mostrarAutomata();
                     System.out.println("-----------------------------------------------------------");
-                    //automata.mostrarAutomata();
                 }
                 break;
                 case 2: {
                     System.out.println("\nHas seleccionado el automata de ejemplo 2\n");
                     automata = new Automata(4);
                     automata.Ejemplo2();
+                    System.out.println("Automata inicial\n");
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
-                    automata.mostrarAutomataPost();
+                    System.out.println("Automata minimo equivalente\n");
+                    automata.mostrarAutomata();
                     System.out.println("-----------------------------------------------------------");
-                    //automata.mostrarAutomata();
                 }
                 break;
                 case 3: {
@@ -53,10 +55,12 @@ public class Main {
                     } while(alfabeto != 1 && alfabeto != 2);
                     automata = new Automata(alfabeto);
                     automata.Datos();
+                    System.out.println("Automata inicial\n");
                     automata.mostrarAutomata();
                     automata.CalculoAutomataMinimo();
+                    System.out.println("Automata minimo equivalente\n");
+                    automata.mostrarAutomata();
                     System.out.println("-----------------------------------------------------------");
-                    //automata.mostrarAutomata();
                 }
                 break;
             }
