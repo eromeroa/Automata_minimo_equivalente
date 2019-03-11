@@ -6,7 +6,6 @@ public class Automata {
     private int nodos;
     private int transiciones;
     private int[][] automata;
-    private int[][] automataFinal;
     private boolean[] estadoFinal;
     private boolean[] nodosAccesibles;
     private boolean[][] matTriangular;
@@ -17,7 +16,6 @@ public class Automata {
         this.nodos = alfa.getNodos();
         this.transiciones = alfa.getTransiciones();
         automata = new int[nodos][transiciones];
-        automataFinal = new int[nodos][transiciones];
         estadoFinal = new boolean[nodos];
         nodosAccesibles = new boolean[nodos];
         nodosEliminados = new boolean[nodos];
@@ -33,7 +31,6 @@ public class Automata {
             estadoFinal[i] = false;
             nodosEliminados[i] = false;
             for (int j = 0; j < transiciones; j++) {
-                automataFinal[i][j] = -99;
                 automata[i][j] = -99;
             }
         }
