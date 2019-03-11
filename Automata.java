@@ -148,7 +148,7 @@ public class Automata {
             exit = sc.nextInt();
             sc.nextLine();//Limpiamos buffer.
         } while (exit != 1);
-    }   //cambiar para meter los datos de: Nodo origen, valor de transición y nodo destino a la vez.
+    } 
 
     public void CalculoAutomataMinimo() {
 
@@ -174,12 +174,6 @@ public class Automata {
     private void marcarEstados() {
 
         for (int i = 0; i < nodos; i++) {
-            System.out.print(estadoFinal[i] + "  ");
-        }
-        System.out.print("\n\n");
-
-
-        for (int i = 0; i < nodos; i++) {
             for (int j = 0; j < nodos; j++) {
                 if (i != j) {
                     if (((estadoFinal[i] && !estadoFinal[j]) && (nodosAccesibles[i] && nodosAccesibles[j])) ||
@@ -189,16 +183,6 @@ public class Automata {
                 }
             }
         }
-
-        for (int i = 0; i < nodos; i++) {
-            for (int j = 0; j < nodos; j++) {
-                System.out.print(matTriangular[i][j] + "\t");
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
-        System.out.print("\n");
-
 
         boolean cambios;
         int nodo1, nodo2;
@@ -225,16 +209,6 @@ public class Automata {
                 }
             }
         } while (cambios);
-
-        //Bucle para imprimir la matriz "triangular"
-
-        for (int i = 0; i < nodos; i++) {
-            for (int j = 0; j < nodos; j++) {
-                System.out.print(matTriangular[i][j] + "\t");
-            }
-            System.out.print("\n");
-        }
-
     }
 
     private void combinarEstados() {
@@ -276,7 +250,7 @@ public class Automata {
             }
         }
 
-        //si un nodo i no tiene transicion j y su equivalente si hay que ponerle la transicion j al nodo i
+        //si un nodo i no tiene transicion j y su equivalente sí, hay que ponerle la transicion j al nodo i
         for (int i = 0; i < nodos; i++) {
             for (int j = 0; j < transiciones; j++) {
                 if (!nodosEliminados[i] && automata[i][j] == -99) {
