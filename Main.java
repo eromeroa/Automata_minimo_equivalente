@@ -2,9 +2,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    /*
-    Hay que modificar los menús para que se permita modificar las relaciones entre nodos por si hay alguna equivocacion y para poder imprimir el grafo en cualquier momento
-     */
     public static void main(String[] args) {
         Automata automata;
         Scanner sc = new Scanner(System.in);
