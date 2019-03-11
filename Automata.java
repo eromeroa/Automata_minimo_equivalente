@@ -164,8 +164,8 @@ public class Automata {
         for (int i = 0; i < nodos; i++) {
             for (int j = 0; j < transiciones; j++) {
                 nodo = automata[i][j];
-                if (nodo != i) {
-                    nodosAccesibles[i] = true;
+                if (nodo != i && nodo!=-99) {
+                    nodosAccesibles[nodo] = true;
                 }
             }
         }
